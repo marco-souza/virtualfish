@@ -66,7 +66,10 @@ function __vf_activate --description "Activate a virtualenv"
     emit virtualenv_will_activate:$argv[1]
 
     set -g _VF_EXTRA_PATH $VIRTUAL_ENV/bin
-    set -gx PATH $_VF_EXTRA_PATH $PATH
+    # if pwf/bin don't exists, just ignore from PATH
+    if test -e $_VF_EXTRA_PATH
+        set -gx PATH $_VF_EXTRA_PATH $PATH
+    end
 
     # hide PYTHONHOME, PIP_USER
     if set -q PYTHONHOME
